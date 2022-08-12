@@ -22,31 +22,6 @@ fun main () {
 
 }
 
-
-fun getResult(result: ResultAbstract) {
-    return when (result) {
-        is Error -> {
-            println(result.exception.toString())
-        }
-        is Success -> {
-            println(result.dataFetched?:  "Ensure you start the fetch function first")
-        }
-        is Loading -> {
-            println("Loading...")
-        }
-        is NotLoading -> {
-            println("Idle")
-        }
-        // else -> println("N/A")
-        is Failure.AnotherCustomFailure -> {
-            println(result.anotherCustomFailure.toString())
-        }
-        is Failure.CustomFailure -> {
-            println(result.customFailure.toString())
-        }
-    }
-}
-
 object Repository {
     private var loadState: ResultAbstract = NotLoading /*Result.IDLE*/
     private var dataFetched:String? = null
@@ -77,6 +52,31 @@ object Repository {
         loadState = Failure.CustomFailure(customFailure = IOException("Custom Failure"))
     }
 }
+
+fun getResult(result: ResultAbstract) {
+    return when (result) {
+        is Error -> {
+            println(result.exception.toString())
+        }
+        is Success -> {
+            println(result.dataFetched?:  "Ensure you start the fetch function first")
+        }
+        is Loading -> {
+            println("Loading...")
+        }
+        is NotLoading -> {
+            println("Idle")
+        }
+        // else -> println("N/A")
+        is Failure.AnotherCustomFailure -> {
+            println(result.anotherCustomFailure.toString())
+        }
+        is Failure.CustomFailure -> {
+            println(result.customFailure.toString())
+        }
+    }
+}
+
 
 // Sealed class get the freedom of representing our states differently.
 // A Sealed Class is an abstract class with a restricted class hierarchy.
